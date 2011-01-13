@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+      table {
+      border: 1px solid black;
+      }
+      td {
+      border: 1px solid black;
+      }
+      thead tr {
+      background: #ccc;
+      font-weight: bold;
+      }
+      tfoot tr {
+      background: #666;
+      font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Timesheet</h1>
+    <p>
+      For the period: ${start_date} - ${end_date}.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Time</td>
+        </tr>
+      </thead>
+      <tal:projects define="projects data['projects']"
+                    repeat="project_id projects">
+        <tal:project define="project projects[project_id]">
+          <thead>
+            <tr>
+              <td colspan="2" tal:content="project['name']" />
+            </tr>
+          </thead>
+          <tbody>
+            <tr tal:repeat="task_id project['tasks']">
+              <tal:work define="task project['tasks'][task_id]">
+                <td tal:content="task['name']" />
+                <td tal:content="task['work']" />
+              </tal:work>
+            </tr>
+          </tbody>
+        </tal:project>
+      </tal:projects>
+      <tfoot>
+        <tr>
+          <td>Total</td>
+          <td tal:content="data['total']" />
+        </tr>
+      </tfoot>
+    </table>
+  </body>
+</html>
